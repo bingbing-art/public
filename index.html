@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>“咏叹调”项目 | 融资方案书与技术演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans SC', 'Noto Sans JP', 'Helvetica Neue', 'Arial', 'sans-serif';
+            background-color: #111827; /* Dark background */
+            color: #d1d5db; /* Light gray text */
+        }
+        .glass-card {
+            background: rgba(31, 41, 55, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem; /* Slightly larger radius */
+        }
+        .brand-gradient {
+            background: linear-gradient(to right, #4f46e5, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h1, h2, h3, h4 {
+            color: #ffffff;
+            letter-spacing: -0.025em;
+        }
+        h2 {
+            border-left: 4px solid #6d28d9;
+            padding-left: 1rem;
+        }
+        .step-marker {
+            position: absolute;
+            left: -4.5rem;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: #1f2937;
+            border: 2px solid #4f46e5;
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+        .timeline-connector {
+            position: absolute;
+            left: -3rem;
+            top: 3rem;
+            width: 2px;
+            height: calc(100% - 1rem);
+            background: #4f46e5;
+            opacity: 0.3;
+        }
+        .play-btn-primary {
+            background-color: #6d28d9;
+            color: white;
+        }
+        .play-btn-secondary {
+            background-color: #374151;
+            color: #d1d5db;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .lang-tab {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .lang-tab.active {
+            color: white;
+            border-bottom-color: #6d28d9;
+        }
+        /* Animation classes */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .is-visible .stagger-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* SVG Animation */
+        .dynamic-svg {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-in 2s 0.5s ease-out forwards;
+        }
+        @keyframes draw-in {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Audio elements -->
+    <audio id="audio-jp" src="https://raw.githubusercontent.com/bingbing-art/public/main/%E6%97%A5%E6%96%87%E5%8E%9F%E5%A3%B01.mp3" preload="auto"></audio>
+    <audio id="audio-aria" src="https://raw.githubusercontent.com/bingbing-art/public/main/audio%20(19).wav" preload="auto"></audio>
+
+    <div id="app" class="min-h-screen">
+        <main class="container mx-auto p-4 md:p-8">
+            <div class="glass-card p-6 md:p-10">
+                <div class="text-center mb-6">
+                     <div class="text-3xl font-bold mb-4">
+                        <span class="brand-gradient">咏叹调</span><span class="text-white"> (Aria)</span>
+                    </div>
+                </div>
+
+                <!-- Language Tabs -->
+                <div class="flex justify-center border-b border-gray-700 mb-8">
+                    <div id="tab-zh" class="lang-tab active" onclick="switchLang('zh')">中文</div>
+                    <div id="tab-en" class="lang-tab" onclick="switchLang('en')">English</div>
+                    <div id="tab-ja" class="lang-tab" onclick="switchLang('ja')">日本語</div>
+                </div>
+
+                <!-- Chinese Content -->
+                <div id="lang-zh" class="lang-content">
+                    <div class="text-center mb-24 fade-in-section">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">项目融资方案书</h1>
+                        <p class="text-gray-400">机密文件 | 2025年7月</p>
+                    </div>
+                    <!-- Sections -->
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">1. 核心摘要：我们的三位一体战略</h2>
+                         <p class="mb-8 text-center text-lg max-w-3xl mx-auto">我们正在构建全球第一个<strong>由情感驱动的内容生成平台</strong>，其核心使命是将人类最宝贵的无形资产——才华、情感与文化遗产——进行深度数字化。</p>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">项目愿景</h3>
+                                <p>我们致力于构建一个可让个人才华与文化价值永续传承、并公平共享的全球化生态。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">核心技术</h3>
+                                <p>我们的核心是一个通用的情感与才华数字化引擎，其独创性在于“分离、理解、重构”。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">市场切入点</h3>
+                                <p>“跨语言表演转换”是我们这个情感驱动平台的第一个商业应用，以此切入B2B游戏本地化市场。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">2. 市场痛点：游戏本地化中被忽视的价值洼地</h2>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item">
+                                <h3 class="font-bold text-lg mb-2 text-rose-400">表演的“灵魂丢失”</h3>
+                                <p>替换原版配音导致作品失去核心艺术魅力，造成核心粉丝流失，IP价值受损。</p>
+                            </div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;">
+                                <h3 class="font-bold text-lg mb-2 text-rose-400">顶级声优的“合作壁垒”</h3>
+                                <p>顶级声优因担心声音被廉价复制，且缺乏公平、持续的收益模式，对AI合作持谨慎态度。</p>
+                            </div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;">
+                                <h3 class="font-bold text-lg mb-2 text-rose-400">本地化体验的“文化折扣”</h3>
+                                <p>传统本地化配音难以捕捉原版独特的文化韵味，导致最终产品体验大打折扣。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">3. 我们的第一个应用：以“表演转换”攻克游戏本地化市场</h2>
+                        <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">我们不做更好的，我们做唯一的</h3>
+                                <p>我们的核心业务是<strong>“跨语言表演转换”</strong>服务。我们开辟的是一个全新的增量市场：让那些原本因为预算、档期或创意原因，永远不会进行高质量目标语言配音的海外游戏，能够以一种全新的方式进入新市场。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">如何赋能所有人才？</h3>
+                                <p>我们的技术为全球所有创作者创造了全新的、可规模化的收入来源。无论是原版艺术家还是本地化人才，都能从其贡献中获得持续的、公平的版税回报。这是一个正和游戏。</p>
+                            </div>
+                        </div>
+                         <p class="font-semibold text-indigo-300 mt-8 text-center">最新进展： 我们已与日本知名游戏公司 [客户公司名称] 就其旗下知名IP [游戏名称] 的本地化项目，进入商业试点合作的深入洽谈阶段。</p>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">4. 我们的护城河：无可替代的技术与数据哲学</h2>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item">
+                                <h3 class="font-bold text-lg mb-2 text-teal-400">核心引擎</h3>
+                                <p>“分离、理解、重构”的艺术，将表演精准分离为独立的“才华原子”。</p>
+                            </div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;">
+                                <h3 class="font-bold text-lg mb-2 text-teal-400">核心燃料</h3>
+                                <p>全球化的“智慧数据”，学习我们独创的“四层黄金数据结构”，而非随机互联网数据。</p>
+                            </div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;">
+                                <h3 class="font-bold text-lg mb-2 text-teal-400">核心控制</h3>
+                                <p>导演级的“情感控制台”，通过高维度情感空间实现对AI表演的精细化调整。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">5. 我们的团队：一个世界级的“五角星”创始与核心团队</h2>
+                         <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item">
+                                <h4 class="text-lg font-bold text-white">Bing Bing - 创始人 & CEO</h4>
+                                <p class="text-sm text-indigo-400 mb-2">艺术的灵魂</p>
+                                <p class="mt-1 text-gray-400 text-sm">作曲家、制片人，深耕内容与艺术领域近20年，拥有将艺术与商业价值完美结合的独特能力。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;">
+                                <h4 class="text-lg font-bold text-white">Mr. Mo - 联合创始人 & CTO</h4>
+                                <p class="text-sm text-indigo-400 mb-2">技术的巧手</p>
+                                <p class="mt-1 text-gray-400 text-sm">剑桥大学博士，机器学习与信号处理专家，曾就职于宁德时代、湖南广电等巨头担任技术总监。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;">
+                                <h4 class="text-lg font-bold text-white">Aoki-san - 首席运营官 & IP负责人</h4>
+                                 <p class="text-sm text-indigo-400 mb-2">管理的基石</p>
+                                <p class="mt-1 text-gray-400 text-sm">原皮乐中国副总裁，精通IP运营、版权业务和中日内容本地化，曾负责《火影忍者》等顶级IP。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 300ms;">
+                                <h4 class="text-lg font-bold text-white">Koyo-san - 首席战略官 & 业务发展</h4>
+                                 <p class="text-sm text-indigo-400 mb-2">市场的罗盘</p>
+                                <p class="mt-1 text-gray-400 text-sm">多年为全球顶级游戏公司提供音乐和声音服务，拥有极其丰富的全球市场资源和行业口碑。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">6. 未来蓝图与合规性</h2>
+                         <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">创作者经济生态</h3>
+                                <p>我们的B2B业务成功后，将不可避免地遇到全球化带来的复杂IP管理和创作者关系问题。我们基于区块链技术的生态系统，是解决这些未来挑战的、经过深思熟虑的战略布局。</p>
+                            </div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;">
+                                <h3 class="font-bold text-lg mb-2 text-indigo-400">风险与合规性说明</h3>
+                                <p>我们认识到AI声音与数字资产化领域尚属监管灰区，因此当前阶段明确采用稳定币结算路径，并对所有NFT权属模型建立签约机制，确保在各法域下的内容主权与合法合规性。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">7. 财务预测与融资需求</h2>
+                        <p class="text-lg mb-6 text-center">我们寻求一笔 <span class="text-2xl font-bold text-indigo-300">500万人民币</span>（或等值美元） 的种子轮融资，以换取公司 <span class="text-2xl font-bold text-indigo-300">15%</span> 的股权。</p>
+                        <h4 class="text-xl font-semibold text-white mb-3 text-center">核心财务预测模型 (未来3年)</h4>
+                        <div class="my-6 p-4 bg-gray-900/50 rounded-lg h-80">
+                            <canvas id="financialChart-zh"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-6 text-center max-w-2xl mx-auto"><strong>预测逻辑：</strong>Y1聚焦灯塔客户验证模式。Y2将迎来爆发式增长，服务多个核心客户并实现盈利。Y3随着数据库扩展，业务将几何级增长，生态网络开始贡献可观收入。</p>
+                        <h4 class="text-xl font-semibold text-white mt-12 mb-6 text-center">资金用途（未来18个月）</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.002 3.002 0 015.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p class="font-bold">40% 团队</p><p class="text-xs text-gray-400">稳定与扩充</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg><p class="font-bold">35% 数据</p><p class="text-xs text-gray-400">中日黄金数据</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg><p class="font-bold">15% 研发</p><p class="text-xs text-gray-400">GPU与云服务</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 300ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.737 11a6.002 6.002 0 001.434-2.175 6.002 6.002 0 004.652 0A6.002 6.002 0 0016.263 11m-8.526 0A6.002 6.002 0 0112 13a6.002 6.002 0 014.263-2M5 11a6.002 6.002 0 01-1.445-2.175 6.002 6.002 0 01-2.406 0A6.002 6.002 0 011 11m18 0a6.002 6.002 0 00-1.445-2.175 6.002 6.002 0 00-2.406 0A6.002 6.002 0 0023 11"/></svg><p class="font-bold">10% 全球化</p><p class="text-xs text-gray-400">法务与差旅</p></div>
+                        </div>
+                         <h4 class="text-xl font-semibold text-white mt-12 mb-6 text-center">承诺交付的关键里程碑</h4>
+                        <div class="grid md:grid-cols-3 gap-6 text-center stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><p class="font-bold">6个月内</p><p class="text-xs text-gray-400">完成核心数据录制与内部Demo</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.875 9.168-3.918"/></svg><p class="font-bold">9个月内</p><p class="text-xs text-gray-400">正式签订第一个商业合同</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg><p class="font-bold">12个月内</p><p class="text-xs text-gray-400">成功交付第一个项目并产生收入</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-16 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-6">8. 结论：一份面向未来的邀请</h2>
+                        <p class="text-center max-w-3xl mx-auto">我们不是在追逐一个风口。我们是在为一个深刻的、未被满足的需求，提供一个根本性的解决方案。我们拥有一个无可比拟的创始团队，一个经过两年沉淀的独特哲学，一个即将签约的真实客户，以及一个通往伟大生态的清晰蓝图。我们寻找的，是愿意与我们一起，为下一个时代的数字文明，奠定基石的<strong class="text-indigo-300">“共同建设者”</strong>。</p>
+                    </section>
+                    <!-- Demo Section -->
+                    <section class="pt-16 border-t border-gray-700 fade-in-section">
+                        <div class="text-center mb-12"><h2 class="text-3xl font-bold mb-2">“咏叹调”AI表演引擎</h2><p class="text-gray-400">跨语言表演转换：见证“灵魂转生”</p></div>
+                        <div class="relative pl-12 md:pl-20">
+                            <div class="relative mb-16"><div class="timeline-connector"></div><h3 class="text-xl font-bold text-white mb-4 relative"><span class="step-marker">1</span>第一步：原版日文表演的“灵魂”解构</h3><div class="glass-card p-6 grid md:grid-cols-2 gap-8 items-center"><div class="text-center"><img src="https://placehold.co/120x120/1f2937/ffffff?text=声優" class="mx-auto rounded-full border-4 border-gray-600 mb-4" alt="Japanese voice actor avatar"><h4 class="text-lg font-semibold">日本声优</h4><p class="text-sm text-gray-400">紧急广播音</p><div class="bg-gray-900 p-4 rounded-lg mt-4 text-left"><p class="text-xs text-gray-400">原版台词 (日语):</p><p class="font-mono text-md text-indigo-300 leading-relaxed">脅威レベル“ガンマ”.<br>禁止区画のドアを開錠します.<br>今すぐ逃げてください!</p><button id="btn-play-jp-zh" class="w-full mt-3 py-2 px-4 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm">播放原版日文表演</button></div></div><div><h4 class="font-semibold mb-4 text-center">AI引擎分析结果: 表演DNA</h4><div class="space-y-4"><div><p class="text-sm text-gray-300 mb-2">情感向量</p><div class="h-24 w-full bg-gray-900/50 rounded-lg flex items-center justify-center"><svg viewBox="0 0 100 100" class="w-20 h-20"><polygon points="50,10 90,35 75,85 25,85 10,35" fill="rgba(79, 70, 229, 0.2)" stroke="#4f46e5" stroke-width="1"/><polygon class="dynamic-svg" points="50,20 85,40 70,80 30,80 15,40" fill="rgba(192, 38, 211, 0.5)" /></svg></div></div><div><p class="text-sm text-gray-300 mb-2">音高曲线 (Pitch)</p><div class="h-24 w-full bg-gray-900/50 rounded-lg flex items-center justify-center p-2"><svg viewBox="0 0 100 30" class="w-full h-full"><path class="dynamic-svg" d="M 5 15 L 25 15 C 30 5, 35 5, 40 15 L 60 15 C 65 25, 70 25, 75 15 L 95 15" stroke="#c026d3" stroke-width="2" fill="none"/></svg></div></div><div><p class="text-sm text-gray-300 mb-2">结构 (Structure)</p><div class="w-full bg-gray-900/50 rounded-lg p-3 text-xs text-gray-400 space-y-1 stagger-children"><p class="stagger-item">脅威レベル“ガンマ”.</p><div class="w-full h-px bg-gray-700"></div><p class="stagger-item" style="transition-delay: 150ms;">禁止区画のドアを開錠します.</p><div class="w-full h-px bg-gray-700"></div><p class="stagger-item" style="transition-delay: 300ms;">今すぐ逃げてください!</p></div></div></div></div></div></div>
+                            <div class="relative"><h3 class="text-xl font-bold text-white mb-4 relative"><span class="step-marker">2</span>第二步：中文的“灵魂”重构与演绎</h3><div class="glass-card p-6"><p class="text-center mb-6">我们的核心技术，是参考“表演DNA”，并结合符合中文语言习惯的方式，进行“创造性地重构”，而非机械复制。</p><div class="grid md:grid-cols-2 gap-6"><div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700"><h4 class="font-bold text-lg text-center mb-4">AI直译版 (对比)</h4><p class="text-center text-sm text-gray-400 mb-2">字面翻译的文本:</p><p class="text-center text-xl font-mono mb-4 leading-relaxed min-h-[5rem] flex items-center justify-center">威胁等级“伽马”。解锁禁止区域的门。请立刻逃跑！</p><p class="text-center text-xs text-gray-400 mb-2">默认的表演结构:</p><div class="w-full bg-gray-700 rounded-lg p-2 text-xs text-gray-400 mb-4 space-y-1"><p>威胁等级“伽马”。</p><div class="w-full h-px bg-gray-600"></div><p>解锁禁止区域的门。</p><div class="w-full h-px bg-gray-600"></div><p>请立刻逃跑！</p></div><button class="w-full py-3 px-4 rounded-lg play-btn-secondary font-semibold" disabled>仅供对比 (不播放)</button></div><div class="bg-gray-900/50 p-6 rounded-lg border-2 border-indigo-500"><h4 class="font-bold text-lg text-center mb-4">“咏叹调”版中文演绎</h4><p class="text-center text-sm text-gray-400 mb-2">最终生成的文本:</p><p class="text-center text-xl font-mono mb-4 leading-relaxed min-h-[5rem] flex items-center justify-center">禁区大门即将开启，威胁等级：伽马。<br>请所有人员务必立即撤离！</p><p class="text-center text-xs text-gray-400 mb-2">AI推荐的表演结构:</p><div class="w-full bg-gray-800 rounded-lg p-2 text-xs text-gray-400 mb-4 space-y-1"><p>禁区大门即将开启</p><div class="w-full h-px bg-gray-700"></div><p>威胁等级：伽马</p><div class="w-full h-px bg-gray-700"></div><p>请所有人员务必立即撤离！</p></div><button id="btn-play-aria-zh" class="w-full py-3 px-4 rounded-lg play-btn-primary hover:bg-indigo-700 transition-colors font-semibold">播放“咏叹调”版演绎</button></div></div></div></div>
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- English Content -->
+                <div id="lang-en" class="hidden lang-content">
+                    <div class="text-center mb-24 fade-in-section">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">Project Pitch Deck</h1>
+                        <p class="text-gray-400">Confidential | July 2025</p>
+                    </div>
+                    <!-- Sections -->
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">1. Executive Summary: Our Trinity Strategy</h2>
+                         <p class="mb-8 text-center text-lg max-w-3xl mx-auto">We are building the world's first <strong>emotion-driven content generation platform</strong>, with the core mission to deeply digitize humanity's most precious intangible assets: talent, emotion, and cultural heritage.</p>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-indigo-400">The Vision</h3><p>We are dedicated to building a global ecosystem where individual talent and cultural value can be perpetually preserved and equitably shared.</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">The Engine</h3><p>At our core is a universal engine for digitizing emotion and talent, whose uniqueness lies in "Separation, Comprehension, and Reconstruction."</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">The First Application</h3><p>"Cross-Lingual Performance Transfer" is our first commercial application, targeting the B2B game localization market.</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">2. Market Pain Points: The Overlooked Value Gap</h2>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-rose-400">Loss of "Soul" in Performance</h3><p>Replacing original voice-overs causes the work to lose its core artistic charm, leading to fan churn and IP value damage.</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-rose-400">Collaboration Barriers with Top VAs</h3><p>Top voice actors are wary of AI collaboration due to fears of cheap replication and lack of a fair, sustainable revenue model.</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h3 class="font-bold text-lg mb-2 text-rose-400">"Cultural Discount" in Experience</h3><p>Traditional localization often fails to capture original cultural nuances, diminishing the final product experience.</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">3. Our First Application: Conquering the Market</h2>
+                        <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-indigo-400">We Don't Do Better, We Do the Only</h3><p>Our core business is the <strong>"Cross-Lingual Performance Transfer"</strong> service. We are creating a brand-new incremental market, enabling games that would never have received high-quality dubbing to enter new markets in a new way.</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">How We Empower All Talent</h3><p>Our technology creates new, scalable revenue streams for all creators worldwide. Both original artists and local talent can earn fair, continuous royalties from their contributions. It's a positive-sum game.</p></div>
+                        </div>
+                         <p class="font-semibold text-indigo-300 mt-8 text-center">Latest Progress: We are in advanced commercial pilot negotiations with a renowned Japanese game company, [Client Company Name], for the localization of their famous IP, [Game Title].</p>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">4. Our Moat: Irreplaceable Technology & Data Philosophy</h2>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-teal-400">Core Engine</h3><p>The art of "Separation, Comprehension, Reconstruction" precisely breaks down performances into independent "talent atoms."</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-teal-400">Core Fuel</h3><p>Global "Wisdom Data," learning from our proprietary "Four-Layer Golden Data Structure," not random internet data.</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h3 class="font-bold text-lg mb-2 text-teal-400">Core Control</h3><p>A director-level "Emotional Console" enables fine-grained adjustment of AI performances via a high-dimensional emotional space.</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">5. Our Team: A World-Class 'Pentagon' Founding & Core Team</h2>
+                         <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h4 class="text-lg font-bold text-white">Bing Bing - Founder & CEO</h4><p class="text-sm text-indigo-400 mb-2">The Artistic Soul</p><p class="mt-1 text-gray-400 text-sm">Composer and producer with 20 years in the arts, possessing a unique ability to blend artistic and commercial value.</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h4 class="text-lg font-bold text-white">Mr. Mo - Co-founder & CTO</h4><p class="text-sm text-indigo-400 mb-2">The Technical Hand</p><p class="mt-1 text-gray-400 text-sm">Cambridge Ph.D. in chip design, now an expert in machine learning and signal processing, with a background at tech giants.</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h4 class="text-lg font-bold text-white">Aoki-san - COO & Head of IP</h4><p class="text-sm text-indigo-400 mb-2">The Management Cornerstone</p><p class="mt-1 text-gray-400 text-sm">Former VP of Pierrot China, expert in IP operations, copyright, and content localization for top IPs like "Naruto."</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 300ms;"><h4 class="text-lg font-bold text-white">Koyo-san - CSO & Business Development</h4><p class="text-sm text-indigo-400 mb-2">The Market Compass</p><p class="mt-1 text-gray-400 text-sm">Provides top-tier music and sound services to global game companies, with extensive market resources and reputation.</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">6. Future Blueprint & Compliance</h2>
+                         <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-indigo-400">Creator Economy Ecosystem</h3><p>After the success of our B2B business, our blockchain-based ecosystem is a well-thought-out strategic layout to solve complex IP management and creator relationship issues brought by globalization.</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">Risk and Compliance Note</h3><p>We recognize the regulatory gray area in AI voice and digital assets. Thus, we are adopting a stablecoin settlement path and establishing contractual mechanisms for all NFT ownership models to ensure compliance.</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">7. Financials & The Ask</h2>
+                        <p class="text-lg mb-6 text-center">We are seeking a <span class="text-2xl font-bold text-indigo-300">5M RMB</span> (or USD equivalent) seed round in exchange for <span class="text-2xl font-bold text-indigo-300">15%</span> equity.</p>
+                        <h4 class="text-xl font-semibold text-white mb-3 text-center">Core Financial Projections (Next 3 Years)</h4>
+                        <div class="my-6 p-4 bg-gray-900/50 rounded-lg h-80">
+                            <canvas id="financialChart-en"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-6 text-center max-w-2xl mx-auto"><strong>Forecast Logic:</strong> Y1 focuses on validating the model. Y2 is projected for explosive growth, serving multiple core clients and achieving profitability. Y3 will see exponential growth as the database expands.</p>
+                        <h4 class="text-xl font-semibold text-white mt-12 mb-6 text-center">Use of Funds (Next 18 Months)</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.002 3.002 0 015.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p class="font-bold">40% Team</p><p class="text-xs text-gray-400">Stability & Expansion</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg><p class="font-bold">35% Data</p><p class="text-xs text-gray-400">CN & JP Golden Data</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg><p class="font-bold">15% R&D</p><p class="text-xs text-gray-400">GPU & Cloud Services</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 300ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.737 11a6.002 6.002 0 001.434-2.175 6.002 6.002 0 004.652 0A6.002 6.002 0 0016.263 11m-8.526 0A6.002 6.002 0 0112 13a6.002 6.002 0 014.263-2M5 11a6.002 6.002 0 01-1.445-2.175 6.002 6.002 0 01-2.406 0A6.002 6.002 0 011 11m18 0a6.002 6.002 0 00-1.445-2.175 6.002 6.002 0 00-2.406 0A6.002 6.002 0 0023 11"/></svg><p class="font-bold">10% Globalization</p><p class="text-xs text-gray-400">Legal & Travel</p></div>
+                        </div>
+                         <h4 class="text-xl font-semibold text-white mt-12 mb-6 text-center">Key Deliverable Milestones</h4>
+                        <div class="grid md:grid-cols-3 gap-6 text-center stagger-children"><div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><p class="font-bold">Within 6 Months</p><p class="text-xs text-gray-400">Complete core data recording & internal demo</p></div><div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.875 9.168-3.918"/></svg><p class="font-bold">Within 9 Months</p><p class="text-xs text-gray-400">Sign first commercial contract</p></div><div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg><p class="font-bold">Within 12 Months</p><p class="text-xs text-gray-400">Deliver first project & generate revenue</p></div></div>` },
+                    <section class="mb-16 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-6">8. Conclusion: An Invitation to the Future</h2>
+                        <p class="text-center max-w-3xl mx-auto">We are not chasing a trend. We are providing a fundamental solution to a deep, unmet need. We have an unparalleled founding team, a unique philosophy refined over two years, a real client on the verge of signing, and a clear blueprint for a great ecosystem. We are looking for <strong>"co-builders"</strong> willing to lay the cornerstone for the next era of digital civilization with us.</p>
+                    </section>
+                    <!-- Demo Section -->
+                    <section class="pt-16 border-t border-gray-700 fade-in-section">
+                        <div class="text-center mb-12"><h2 class="text-3xl font-bold mb-2">Aria AI Performance Engine</h2><p class="text-gray-400">Cross-Lingual Performance Transfer: Witnessing a "Soul Transmigration"</p></div>
+                        <div class="relative pl-12 md:pl-20">
+                            <div class="relative mb-16"><div class="timeline-connector"></div><h3 class="text-xl font-bold text-white mb-4 relative"><span class="step-marker">1</span>Step 1: Deconstruction of the Original Japanese Performance's "Soul"</h3><div class="glass-card p-6 grid md:grid-cols-2 gap-8 items-center"><div class="text-center"><img src="https://placehold.co/120x120/1f2937/ffffff?text=VA" class="mx-auto rounded-full border-4 border-gray-600 mb-4" alt="Japanese voice actor avatar"><h4 class="text-lg font-semibold">Japanese Voice Actor</h4><p class="text-sm text-gray-400">Emergency Broadcast Tone</p><div class="bg-gray-900 p-4 rounded-lg mt-4 text-left"><p class="text-xs text-gray-400">Original Line (Japanese):</p><p class="font-mono text-md text-indigo-300 leading-relaxed">脅威レベル“ガンマ”.<br>禁止区画のドアを開錠します.<br>今すぐ逃げてください!</p><button id="btn-play-jp-en" class="w-full mt-3 py-2 px-4 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm">Play Original Japanese Performance</button></div></div><div><h4 class="font-semibold mb-4 text-center">AI Engine Analysis: Performance DNA</h4><div class="space-y-4"><div><p class="text-sm text-gray-300 mb-2">Emotion Vector</p><div class="h-24 w-full bg-gray-900/50 rounded-lg flex items-center justify-center"><svg viewBox="0 0 100 100" class="w-20 h-20"><polygon points="50,10 90,35 75,85 25,85 10,35" fill="rgba(79, 70, 229, 0.2)" stroke="#4f46e5" stroke-width="1"/><polygon class="dynamic-svg" points="50,20 85,40 70,80 30,80 15,40" fill="rgba(192, 38, 211, 0.5)" /></svg></div></div><div><p class="text-sm text-gray-300 mb-2">Pitch Curve</p><div class="h-24 w-full bg-gray-900/50 rounded-lg flex items-center justify-center p-2"><svg viewBox="0 0 100 30" class="w-full h-full"><path class="dynamic-svg" d="M 5 15 L 25 15 C 30 5, 35 5, 40 15 L 60 15 C 65 25, 70 25, 75 15 L 95 15" stroke="#c026d3" stroke-width="2" fill="none"/></svg></div></div><div><p class="text-sm text-gray-300 mb-2">Structure</p><div class="w-full bg-gray-900/50 rounded-lg p-3 text-xs text-gray-400 space-y-1 stagger-children"><p class="stagger-item">脅威レベル“ガンマ”.</p><div class="w-full h-px bg-gray-700"></div><p class="stagger-item" style="transition-delay: 150ms;">禁止区画のドアを開錠します.</p><div class="w-full h-px bg-gray-700"></div><p class="stagger-item" style="transition-delay: 300ms;">今すぐ逃げてください!</p></div></div></div></div></div></div>
+                            <div class="relative"><h3 class="text-xl font-bold text-white mb-4 relative"><span class="step-marker">2</span>Step 2: Reconstruction & Performance in Chinese</h3><div class="glass-card p-6"><p class="text-center mb-6">Our core technology references the "Performance DNA" and creatively reconstructs it to fit the linguistic habits of Chinese, rather than mechanically copying it.</p><div class="grid md:grid-cols-2 gap-6"><div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700"><h4 class="font-bold text-lg text-center mb-4">Direct AI Translation (Comparison)</h4><p class="text-center text-sm text-gray-400 mb-2">Literally Translated Text:</p><p class="text-center text-xl font-mono mb-4 leading-relaxed min-h-[5rem] flex items-center justify-center">威胁等级“伽马”。解锁禁止区域的门。请立刻逃跑！</p><p class="text-center text-xs text-gray-400 mb-2">Default Performance Structure:</p><div class="w-full bg-gray-700 rounded-lg p-2 text-xs text-gray-400 mb-4 space-y-1"><p>威胁等级“伽马”。</p><div class="w-full h-px bg-gray-600"></div><p>解锁禁止区域的门。</p><div class="w-full h-px bg-gray-600"></div><p>请立刻逃跑！</p></div><button class="w-full py-3 px-4 rounded-lg play-btn-secondary font-semibold" disabled>For Comparison Only (No Audio)</button></div><div class="bg-gray-900/50 p-6 rounded-lg border-2 border-indigo-500"><h4 class="font-bold text-lg text-center mb-4">Aria's Chinese Performance</h4><p class="text-center text-sm text-gray-400 mb-2">Final Generated Text:</p><p class="text-center text-xl font-mono mb-4 leading-relaxed min-h-[5rem] flex items-center justify-center">禁区大门即将开启，威胁等级：伽马。<br>请所有人员务必立即撤离！</p><p class="text-center text-xs text-gray-400 mb-2">AI-Recommended Performance Structure:</p><div class="w-full bg-gray-800 rounded-lg p-2 text-xs text-gray-400 mb-4 space-y-1"><p>禁区大门即将开启</p><div class="w-full h-px bg-gray-700"></div><p>威胁等级：伽马</p><div class="w-full h-px bg-gray-700"></div><p>请所有人员务必立即撤离！</p></div><button id="btn-play-aria-en" class="w-full py-3 px-4 rounded-lg play-btn-primary hover:bg-indigo-700 transition-colors font-semibold">Play Aria's Performance</button></div></div></div></div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Japanese Content -->
+                <div id="lang-ja" class="hidden lang-content">
+                    <div class="text-center mb-24 fade-in-section">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">プロジェクト資金調達提案書</h1>
+                        <p class="text-gray-400">機密文書 | 2025年7月</p>
+                    </div>
+                    <!-- Sections -->
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">1. エグゼクティブサマリー：私たちの三位一体戦略</h2>
+                         <p class="mb-8 text-center text-lg max-w-3xl mx-auto">私たちは、人類の最も貴重な無形資産である才能、感情、文化遺産を深くデジタル化するという中心的な使命を持つ、世界初の<strong>感情駆動型コンテンツ生成プラットフォーム</strong>を構築しています。</p>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-indigo-400">ビジョン</h3><p>私たちは、個人の才能と文化的価値が永続的に継承され、公平に共有されるグローバルなエコシステムを構築することに専念しています。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">コア技術</h3><p>私たちの核となるのは、感情と才能をデジタル化するための汎用エンジンです。その独自性は「分離、理解、再構築」にあります。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">市場参入点</h3><p>「クロス言語パフォーマンス変換」は、私たちの最初の商業アプリケーションであり、B2Bゲームローカライズ市場に参入します。</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">2. 市場のペインポイント：ゲームローカライズにおける見過ごされた価値のギャップ</h2>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-rose-400">パフォーマンスの「魂」の喪失</h3><p>元の声優を差し替えると、作品が持つ中心的な芸術的魅力が失われ、コアなファンの離脱とIP価値の損害を引き起こします。</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-rose-400">トップ声優との協力の障壁</h3><p>トップ声優は、声が安価に複製されることや、公正な収益モデルがないことを懸念し、AI協力に慎重です。</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h3 class="font-bold text-lg mb-2 text-rose-400">ローカライズ体験の「文化的割引」</h3><p>従来のローカライズでは、元の文化的なニュアンスを捉えきれず、最終的な製品体験が損なわれます。</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">3. 私たちの最初のアプリケーション：「パフォーマンス変換」でゲームローカライズ市場を攻略</h2>
+                        <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-indigo-400">より良いものではなく、唯一無二を</h3><p>私たちのコアビジネスは<strong>「クロス言語パフォーマンス変換」</strong>サービスです。私たちは、既存の市場で競争するのではなく、全く新しい増分市場を創造しています。これにより、これまで高品質な吹き替えが行われなかった海外のゲームが、新しい方法で市場に参入できます。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">すべての才能をどのようにエンパワーするか</h3><p>私たちの技術は、世界中のクリエイターに新しい収益源を生み出します。元のアーティストも地元の才能も、その貢献から公正で継続的なロイヤリティを得ることができます。これはポジティブサムゲームです。</p></div>
+                        </div>
+                        <p class="font-semibold text-indigo-300 mt-8 text-center">最新の進捗：私たちは、著名な日本のゲーム会社[クライアント会社名]と、その有名IP[ゲームタイトル]のローカライズに関する高度な商業パイロット交渉を進めています。</p>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">4. 私たちの堀：代替不可能な技術とデータ哲学</h2>
+                        <div class="grid md:grid-cols-3 gap-8 stagger-children">
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-teal-400">コアエンジン</h3><p>「分離、理解、再構築」の芸術。パフォーマンスを独立した「才能原子」に正確に分離します。</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-teal-400">コア燃料</h3><p>グローバルな「知恵のデータ」。ランダムなインターネットデータではなく、独自の「四層ゴールデンデータ構造」から学習します。</p></div>
+                             <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h3 class="font-bold text-lg mb-2 text-teal-400">コア制御</h3><p>監督レベルの「感情コンソール」。高次元の感情空間を通じてAIパフォーマンスを微調整します。</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">5. 私たちのチーム：ワールドクラスの「ペンタゴン」創設＆コアチーム</h2>
+                         <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h4 class="text-lg font-bold text-white">Bing Bing - 創設者 & CEO</h4><p class="text-sm text-indigo-400 mb-2">芸術の魂</p><p class="mt-1 text-gray-400 text-sm">作曲家、プロデューサー。20年近くコンテンツとアートの分野で活躍し、芸術的価値と商業的価値を融合させるユニークな能力を持つ。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h4 class="text-lg font-bold text-white">Mr. Mo - 共同創設者 & CTO</h4><p class="text-sm text-indigo-400 mb-2">技術の巧腕</p><p class="mt-1 text-gray-400 text-sm">ケンブリッジ大学博士。機械学習と信号処理の専門家で、CATLなどの大手企業で技術ディレクターを歴任。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><h4 class="text-lg font-bold text-white">Aoki-san - COO & IP責任者</h4><p class="text-sm text-indigo-400 mb-2">経営の礎</p><p class="mt-1 text-gray-400 text-sm">元ぴえろチャイナ副社長。IP運営、著作権ビジネス、日中コンテンツのローカライズに精通。「NARUTO -ナルト-」などのトップIPを担当。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 300ms;"><h4 class="text-lg font-bold text-white">Koyo-san - CSO & 事業開発</h4><p class="text-sm text-indigo-400 mb-2">市場の羅針盤</p><p class="mt-1 text-gray-400 text-sm">世界のトップゲーム会社に音楽とサウンドサービスを提供。豊富なグローバル市場リソースと業界での評価を持つ。</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">6. 未来の青写真とコンプライアンス</h2>
+                         <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><h3 class="font-bold text-lg mb-2 text-indigo-400">クリエイターエコノミーエコシステム</h3><p>B2Bビジネスの成功後、グローバル化がもたらす複雑なIP管理とクリエイター関係の問題に対処するため、私たちのブロックチェーンベースのエコシステムは、これらの未来の課題を解決するための戦略的なレイアウトです。</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><h3 class="font-bold text-lg mb-2 text-indigo-400">リスクとコンプライアンスに関する注記</h3><p>AI音声とデジタル資産の分野が規制のグレーゾーンであることを認識しています。そのため、現段階ではステーブルコイン決済パスを明確に採用し、すべてのNFT所有権モデルに対して契約メカニズムを確立してコンプライアンスを確保します。</p></div>
+                        </div>
+                    </section>
+                    <section class="mb-24 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-8">7. 財務予測と資金調達の要請</h2>
+                        <p class="text-lg mb-6 text-center">私たちは、会社の<span class="text-2xl font-bold text-indigo-300">15%</span>の株式と引き換えに、<span class="text-2xl font-bold text-indigo-300">500万人民元</span>（または米ドル相当額）のシードラウンド資金を求めています。</p>
+                        <h4 class="text-xl font-semibold text-white mb-3 text-center">コア財務予測（今後3年間）</h4>
+                        <div class="my-6 p-4 bg-gray-900/50 rounded-lg h-80">
+                            <canvas id="financialChart-ja"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-6 text-center max-w-2xl mx-auto"><strong>予測ロジック：</strong>Y1は灯台クライアントでモデルを検証します。Y2は爆発的な成長を遂げ、複数のコアクライアントにサービスを提供し、収益性を達成します。Y3はデータベースの拡大に伴い、指数関数的な成長が見込まれます。</p>
+                        <h4 class="text-xl font-semibold text-white mt-12 mb-6 text-center">資金の使途（今後18ヶ月）</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center stagger-children">
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.002 3.002 0 015.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p class="font-bold">40% チーム</p><p class="text-xs text-gray-400">安定と拡充</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg><p class="font-bold">35% データ</p><p class="text-xs text-gray-400">日中ゴールデンデータ</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg><p class="font-bold">15% 研究開発</p><p class="text-xs text-gray-400">GPUとクラウド</p></div>
+                            <div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 300ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.737 11a6.002 6.002 0 001.434-2.175 6.002 6.002 0 004.652 0A6.002 6.002 0 0016.263 11m-8.526 0A6.002 6.002 0 0112 13a6.002 6.002 0 014.263-2M5 11a6.002 6.002 0 01-1.445-2.175 6.002 6.002 0 01-2.406 0A6.002 6.002 0 011 11m18 0a6.002 6.002 0 00-1.445-2.175 6.002 6.002 0 00-2.406 0A6.002 6.002 0 0023 11"/></svg><p class="font-bold">10% グローバル化</p><p class="text-xs text-gray-400">法務と旅費</p></div>
+                        </div>
+                         <h4 class="text-xl font-semibold text-white mt-12 mb-6 text-center">約束された主要なマイルストーン</h4>
+                        <div class="grid md:grid-cols-3 gap-6 text-center stagger-children"><div class="bg-gray-900/50 p-6 rounded-lg stagger-item"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><p class="font-bold">6ヶ月以内</p><p class="text-xs text-gray-400">コアデータ収録と内部デモの完成</p></div><div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 100ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.875 9.168-3.918"/></svg><p class="font-bold">9ヶ月以内</p><p class="text-xs text-gray-400">最初の商業契約を正式に締結</p></div><div class="bg-gray-900/50 p-6 rounded-lg stagger-item" style="transition-delay: 200ms;"><svg class="w-12 h-12 mx-auto text-indigo-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg><p class="font-bold">12ヶ月以内</p><p class="text-xs text-gray-400">最初のプロジェクトを成功させ収益を上げる</p></div></div>` },
+                    <section class="mb-16 fade-in-section">
+                        <h2 class="text-2xl font-bold mb-6">8. 結論：未来への招待状</h2>
+                        <p class="text-center max-w-3xl mx-auto">私たちはトレンドを追っているわけではありません。深く、満たされていないニーズに対して、根本的な解決策を提供しているのです。私たちは、比類のない創設チーム、2年間にわたって洗練された独自の哲学、契約間近の実際のクライアント、そして偉大なエコシステムへの明確な青写真を持っています。私たちは、次の時代のデジタル文明の礎を共に築いてくれる<strong>「共同建設者」</strong>を探しています。</p>
+                    </section>
+                    <!-- Demo Section -->
+                    <section class="pt-16 border-t border-gray-700 fade-in-section">
+                        <div class="text-center mb-12"><h2 class="text-3xl font-bold mb-2">「咏叹调」AIパフォーマンスエンジン</h2><p class="text-gray-400">クロス言語パフォーマンス変換：「魂の転生」を目撃する</p></div>
+                        <div class="relative pl-12 md:pl-20">
+                            <div class="relative mb-16"><div class="timeline-connector"></div><h3 class="text-xl font-bold text-white mb-4 relative"><span class="step-marker">1</span>ステップ1：オリジナル日本語パフォーマンスの「魂」の分解</h3><div class="glass-card p-6 grid md:grid-cols-2 gap-8 items-center"><div class="text-center"><img src="https://placehold.co/120x120/1f2937/ffffff?text=声優" class="mx-auto rounded-full border-4 border-gray-600 mb-4" alt="Japanese voice actor avatar"><h4 class="text-lg font-semibold">日本の声優</h4><p class="text-sm text-gray-400">緊急放送トーン</p><div class="bg-gray-900 p-4 rounded-lg mt-4 text-left"><p class="text-xs text-gray-400">原版台词 (日语):</p><p class="font-mono text-md text-indigo-300 leading-relaxed">脅威レベル“ガンマ”.<br>禁止区画のドアを開錠します.<br>今すぐ逃げてください!</p><button id="btn-play-jp-ja" class="w-full mt-3 py-2 px-4 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm">播放原版日文表演</button></div></div><div><h4 class="font-semibold mb-4 text-center">AI引擎分析结果: 表演DNA</h4><div class="space-y-4"><div><p class="text-sm text-gray-300 mb-2">感情ベクトル</p><div class="h-24 w-full bg-gray-900/50 rounded-lg flex items-center justify-center"><svg viewBox="0 0 100 100" class="w-20 h-20"><polygon points="50,10 90,35 75,85 25,85 10,35" fill="rgba(79, 70, 229, 0.2)" stroke="#4f46e5" stroke-width="1"/><polygon class="dynamic-svg" points="50,20 85,40 70,80 30,80 15,40" fill="rgba(192, 38, 211, 0.5)" /></svg></div></div><div><p class="text-sm text-gray-300 mb-2">音高曲线 (Pitch)</p><div class="h-24 w-full bg-gray-900/50 rounded-lg flex items-center justify-center p-2"><svg viewBox="0 0 100 30" class="w-full h-full"><path class="dynamic-svg" d="M 5 15 L 25 15 C 30 5, 35 5, 40 15 L 60 15 C 65 25, 70 25, 75 15 L 95 15" stroke="#c026d3" stroke-width="2" fill="none"/></svg></div></div><div><p class="text-sm text-gray-300 mb-2">结构 (Structure)</p><div class="w-full bg-gray-900/50 rounded-lg p-3 text-xs text-gray-400 space-y-1 stagger-children"><p class="stagger-item">脅威レベル“ガンマ”.</p><div class="w-full h-px bg-gray-700"></div><p class="stagger-item" style="transition-delay: 150ms;">禁止区画のドアを開錠します.</p><div class="w-full h-px bg-gray-700"></div><p class="stagger-item" style="transition-delay: 300ms;">今すぐ逃げてください!</p></div></div></div></div></div></div>
+                            <div class="relative"><h3 class="text-xl font-bold text-white mb-4 relative"><span class="step-marker">2</span>ステップ2：中国語での「魂」の再構築と演繹</h3><div class="glass-card p-6"><p class="text-center mb-6">私たちのコア技術は、「パフォーマンスDNA」を参考にし、中国語の言語習慣に合わせて創造的に再構築するものであり、機械的にコピーするものではありません。</p><div class="grid md:grid-cols-2 gap-6"><div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700"><h4 class="font-bold text-lg text-center mb-4">AI直訳版 (对比)</h4><p class="text-center text-sm text-gray-400 mb-2">字面翻译的文本:</p><p class="text-center text-xl font-mono mb-4 leading-relaxed min-h-[5rem] flex items-center justify-center">威胁等级“伽马”。解锁禁止区域的门。请立刻逃跑！</p><p class="text-center text-xs text-gray-400 mb-2">默认的表演结构:</p><div class="w-full bg-gray-700 rounded-lg p-2 text-xs text-gray-400 mb-4 space-y-1"><p>威胁等级“伽马”。</p><div class="w-full h-px bg-gray-600"></div><p>解锁禁止区域的门。</p><div class="w-full h-px bg-gray-600"></div><p>请立刻逃跑！</p></div><button class="w-full py-3 px-4 rounded-lg play-btn-secondary font-semibold" disabled>仅供对比 (不播放)</button></div><div class="bg-gray-900/50 p-6 rounded-lg border-2 border-indigo-500"><h4 class="font-bold text-lg text-center mb-4">“咏叹调”版中文演绎</h4><p class="text-center text-sm text-gray-400 mb-2">最终生成的文本:</p><p class="text-center text-xl font-mono mb-4 leading-relaxed min-h-[5rem] flex items-center justify-center">禁区大门即将开启，威胁等级：伽马。<br>请所有人员务必立即撤离！</p><p class="text-center text-xs text-gray-400 mb-2">AI推荐的表演结构:</p><div class="w-full bg-gray-800 rounded-lg p-2 text-xs text-gray-400 mb-4 space-y-1"><p>禁区大门即将开启</p><div class="w-full h-px bg-gray-700"></div><p>威胁等级：伽马</p><div class="w-full h-px bg-gray-700"></div><p>请所有人员务必立即撤离！</p></div><button id="btn-play-aria-ja" class="w-full py-3 px-4 rounded-lg play-btn-primary hover:bg-indigo-700 transition-colors font-semibold">播放“咏叹调”版演绎</button></div></div></div></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Animation on Scroll ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        const staggerItems = entry.target.querySelectorAll('.stagger-item');
+                        staggerItems.forEach((item, index) => {
+                            item.style.transitionDelay = `${index * 100}ms`;
+                        });
+                        const svgs = entry.target.querySelectorAll('.dynamic-svg');
+                        svgs.forEach(svg => {
+                            svg.style.animation = 'none';
+                            svg.offsetHeight;
+                            svg.style.animation = null; 
+                        });
+                        if(entry.target.querySelector('#financialChart-zh')){ createFinancialChart('zh'); }
+                        if(entry.target.querySelector('#financialChart-en')){ createFinancialChart('en'); }
+                        if(entry.target.querySelector('#financialChart-ja')){ createFinancialChart('ja'); }
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- Audio Playback Logic ---
+            const audioElements = {
+                jp: document.getElementById('audio-jp'),
+                aria: document.getElementById('audio-aria')
+            };
+
+            const buttons = {};
+            const originalButtonText = {};
+            ['zh', 'en', 'ja'].forEach(lang => {
+                buttons[`jp-${lang}`] = document.getElementById(`btn-play-jp-${lang}`);
+                buttons[`aria-${lang}`] = document.getElementById(`btn-play-aria-${lang}`);
+                if (buttons[`jp-${lang}`]) originalButtonText[`jp-${lang}`] = buttons[`jp-${lang}`].textContent;
+                if (buttons[`aria-${lang}`]) originalButtonText[`aria-${lang}`] = buttons[`aria-${lang}`].textContent;
+            });
+
+            const stopAllAudio = () => {
+                Object.values(audioElements).forEach(audio => {
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+                for (const key in buttons) {
+                    if(buttons[key]) {
+                        buttons[key].textContent = originalButtonText[key];
+                        buttons[key].disabled = false;
+                    }
+                }
+            };
+
+            const playAudio = (audioKey, buttonKey) => {
+                stopAllAudio(); 
+                const audio = audioElements[audioKey];
+                const button = buttons[buttonKey];
+                if (!audio || !button) return;
+
+                if (audio.src.includes('YOUR_')) {
+                    button.textContent = '音频文件缺失';
+                    button.disabled = true;
+                    setTimeout(() => {
+                        button.textContent = originalButtonText[buttonKey];
+                        button.disabled = false;
+                    }, 2500);
+                    return;
+                }
+
+                audio.play().catch(e => {
+                    console.error("Audio play failed:", e);
+                    button.textContent = '播放失败';
+                     setTimeout(() => {
+                        button.textContent = originalButtonText[buttonKey];
+                        button.disabled = false;
+                    }, 2500);
+                });
+
+                button.textContent = '正在播放...';
+                button.disabled = true;
+
+                audio.onended = () => {
+                    button.textContent = originalButtonText[buttonKey];
+                    button.disabled = false;
+                };
+                audio.onerror = () => {
+                    button.textContent = '加载失败';
+                    button.disabled = false;
+                };
+            };
+            
+            // Event Listeners
+            for (const key in buttons) {
+                if (buttons[key]) {
+                    const audioKey = key.startsWith('jp') ? 'jp' : 'aria';
+                    buttons[key].addEventListener('click', () => playAudio(audioKey, key));
+                }
+            }
+        });
+
+        // --- Language Switching ---
+        function switchLang(lang) {
+            document.querySelectorAll('.lang-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('lang-' + lang).classList.remove('hidden');
+            document.getElementById('tab-' + lang).classList.add('active');
+        }
+
+        // --- Chart.js Logic ---
+        const chartData = {
+            labels: ['Year 1', 'Year 2', 'Year 3'],
+            revenue: [15, 200, 400],
+            ebit: [-60, 20, 250]
+        };
+        const chartLabels = {
+            zh: { revenue: '总收入 (万美元)', ebit: '息税前利润 (万美元)' },
+            en: { revenue: 'Revenue ($10k)', ebit: 'EBIT ($10k)' },
+            ja: { revenue: '総収益（万ドル）', ebit: 'EBIT（万ドル）' }
+        };
+
+        function createFinancialChart(lang) {
+            const canvasId = `financialChart-${lang}`;
+            const ctx = document.getElementById(canvasId);
+            if (!ctx || ctx.chart) return; 
+
+            ctx.chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: chartLabels[lang].revenue,
+                            data: chartData.revenue,
+                            backgroundColor: 'rgba(79, 70, 229, 0.6)',
+                            borderColor: 'rgba(79, 70, 229, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: chartLabels[lang].ebit,
+                            data: chartData.ebit,
+                            backgroundColor: 'rgba(192, 38, 211, 0.6)',
+                            borderColor: 'rgba(192, 38, 211, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#d1d5db'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: { color: '#9ca3af' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#9ca3af' },
+                             grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
